@@ -100,9 +100,9 @@ function App() {
       <section className=" px-2 max-w-[1200px] mx-auto mt-8 my-4">
         <div className="card w-full bg-base-100 shadow-xl mx-auto">
           <div className="card-body">
-            <h2 className="card-title">Current Reading</h2>
+            <h2 className="card-title mx-auto">Current Reading</h2>
 
-            <div className="text-lg font-bold">
+            <div className="text-xl font-bold text-center">
               Status:{" "}
               {dataState && (
                 <span
@@ -130,11 +130,11 @@ function App() {
 
         <div className="card w-full bg-base-100 shadow-xl mx-auto mt-12">
           <div className="card-body">
+          <h2 className="card-title">Past Readings</h2>
             <div
               className=" rounded-2"
               style={{ maxHeight: "400px", overflow: "auto" }}
             >
-              <h2 className="card-title">Past Readings</h2>
 
               {dataArray && dataArray.length > 0 ? (
                 <table className="table table-zebra mt-4">
