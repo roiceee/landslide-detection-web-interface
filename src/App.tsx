@@ -121,21 +121,26 @@ function App() {
             <hr className="mt-4" />
 
             <>
-              <div>Vibration: {dataState && dataState.vibration}</div>
-              <div>Distance: {dataState && dataState.distance}</div>
-              <div>Moisture: {dataState && dataState.moisture}</div>
+              <div>
+                Vibration: <b>{dataState && dataState.vibration}</b>
+              </div>
+              <div>
+                Distance: <b>{dataState && dataState.distance}</b>
+              </div>
+              <div>
+                Moisture: <b>{dataState && dataState.moisture}</b>
+              </div>
             </>
           </div>
         </div>
 
         <div className="card w-full bg-base-100 shadow-xl mx-auto mt-12">
           <div className="card-body">
-          <h2 className="card-title">Past Readings</h2>
+            <h2 className="card-title">Past Readings</h2>
             <div
               className=" rounded-2"
               style={{ maxHeight: "400px", overflow: "auto" }}
             >
-
               {dataArray && dataArray.length > 0 ? (
                 <table className="table table-zebra mt-4">
                   <thead>
