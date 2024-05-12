@@ -53,9 +53,9 @@ function App() {
       return (
         <tr key={`data-${index}`}>
           <td>{data.timeStamp.toLocaleTimeString()}</td>
-          <td>{data.data.distance}</td>
-          <td>{data.data.moisture}</td>
-          <td>{data.data.vibration}</td>
+          <td>{data.data.distance} cm</td>
+          <td>{data.data.moisture} %</td>
+          <td>{data.data.vibration} %</td>
           <td>
             {determineStatus({
               distance: data.data.distance!,
@@ -122,13 +122,13 @@ function App() {
 
             <>
               <div>
-                Vibration: <b>{dataState && dataState.vibration}%</b>
+                Vibration: <b>{dataState && dataState.vibration} %</b>
               </div>
               <div>
-                Distance: <b>{dataState && dataState.distance}%</b>
+                Distance: <b>{dataState && dataState.distance} cm</b>
               </div>
               <div>
-                Moisture: <b>{dataState && dataState.moisture}%</b>
+                Moisture: <b>{dataState && dataState.moisture} %</b>
               </div>
             </>
           </div>
