@@ -3,9 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Navbar from "./components/Navbar";
 import app from "./firebase";
 import Data from "./types/data";
-import {
-  default as determineSystemStatus
-} from "./util/status-checker";
+import { default as determineSystemStatus } from "./util/status-checker";
 
 function App() {
   const database = getDatabase(app);
@@ -148,9 +146,9 @@ function App() {
                   <thead>
                     <tr>
                       <th>Time Stamp</th>
-                      <th>Vibration</th>
                       <th>Distance</th>
                       <th>Moisture</th>
+                      <th>Vibration</th>
                       <th>Status</th>
                     </tr>
                   </thead>
