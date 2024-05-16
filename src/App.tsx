@@ -58,15 +58,15 @@ function App() {
           <td>{data.data.vibration} %</td>
           <td>
             {determineSystemStatus(
-              dataState!.distance!,
-              dataState!.vibration!,
-              dataState!.moisture!
+              data.data!.distance!,
+              data.data!.vibration!,
+              data.data!.moisture!
             )}
           </td>
         </tr>
       );
     });
-  }, [dataArray, dataState]);
+  }, [dataArray]);
 
   useEffect(() => {
     if (!dataState) {
