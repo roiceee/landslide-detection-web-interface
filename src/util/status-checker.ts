@@ -1,68 +1,49 @@
 type Status = "Safe" | "Alert" | "Danger" | "";
 
-interface SensorReadings {
-  distance: number;
-  vibration: number;
-  moisture: number;
-}
+// Define the threshold constants
+const DISTANCE_SAFE_THRESHOLD = 15.0; // Safe distance threshold in cm
+const VIBRATION_SAFE_THRESHOLD = 50; // Safe vibration threshold
+const MOISTURE_SAFE_THRESHOLD = 50; // Safe moisture threshold
 
-function determineStatus(readings: SensorReadings): Status {
-  // Determine air quality status
-  const distanceStatus = getdistanceStatus(readings.distance);
-
-  // Determine vibration status
-  const vibrationStatus = getVibrationStatus(readings.vibration);
-
-  // Determine soil moisture status
-  const soilMoistureStatus = getSoilMoistureStatus(readings.moisture);
-
-  // Determine the overall status based on the most severe condition
-  const overallStatus = [
-    distanceStatus,
-    vibrationStatus,
-    soilMoistureStatus,
-  ].reduce((max, current) => {
-    if (current === "Danger" || max === "Danger") {
-      return "Danger";
-    } else if (current === "Alert" || max === "Alert") {
+function determineSystemStatus(
+  distance: number,
+  vibration: number,
+  moisture: number
+): string {
+  // Determine system status based on sensor thresholds
+  if (
+    distance < DISTANCE_SAFE_THRESHOLD &&
+    vibration < VIBRATION_SAFE_THRESHOLD &&
+    moisture < MOISTURE_SAFE_THRESHOLD
+  ) {
+    return "Safe";
+  } else if (
+    distance >= DISTANCE_SAFE_THRESHOLD ||
+    vibration >= VIBRATION_SAFE_THRESHOLD ||
+    moisture >= MOISTURE_SAFE_THRESHOLD
+  ) {
+    if (
+      (distance >= DISTANCE_SAFE_THRESHOLD &&
+        distance < 2 * DISTANCE_SAFE_THRESHOLD) ||
+      (vibration >= VIBRATION_SAFE_THRESHOLD &&
+        vibration < 2 * VIBRATION_SAFE_THRESHOLD) ||
+      (moisture >= MOISTURE_SAFE_THRESHOLD &&
+        moisture < 2 * MOISTURE_SAFE_THRESHOLD &&
+        !(
+          distance < DISTANCE_SAFE_THRESHOLD &&
+          vibration < VIBRATION_SAFE_THRESHOLD &&
+          moisture < MOISTURE_SAFE_THRESHOLD
+        ))
+    ) {
       return "Alert";
+    } else {
+      return "Danger";
     }
-    return max;
-  }, "Safe");
-
-  return overallStatus;
-}
-
-function getdistanceStatus(distance: number): Status {
-  if (distance < 51) {
-    return "Safe";
-  } else if (distance <= 100) {
-    return "Alert";
   } else {
-    return "Danger";
+    return "Safe";
   }
 }
 
-function getVibrationStatus(vibration: number): Status {
-  if (vibration < 51) {
-    return "Safe";
-  } else if (vibration <= 80) {
-    return "Alert";
-  } else {
-    return "Danger";
-  }
-}
+export default determineSystemStatus;
+export type { Status };
 
-function getSoilMoistureStatus(soilMoisture: number): Status {
-  if (soilMoisture < 801) {
-    return "Safe";
-  } else if (soilMoisture <= 1000) {
-    return "Alert";
-  } else {
-    return "Danger";
-  }
-}
-
-export default determineStatus;
-export { getdistanceStatus, getVibrationStatus, getSoilMoistureStatus };
-export type {Status};

@@ -1,9 +1,11 @@
 import { getDatabase, onValue, ref } from "firebase/database";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Navbar from "./components/Navbar";
 import app from "./firebase";
-import { useCallback, useEffect, useMemo, useState } from "react";
 import Data from "./types/data";
-import determineStatus, { Status } from "./util/status-checker";
+import {
+  default as determineSystemStatus
+} from "./util/status-checker";
 
 function App() {
   const database = getDatabase(app);
@@ -14,7 +16,7 @@ function App() {
     { timeStamp: Date; data: Data }[] | undefined
   >(undefined);
 
-  const [status, setStatus] = useState<Status>("");
+  const [status, setStatus] = useState<string>("");
 
   const getData = useCallback(() => {
     const distance = ref(database, "/distance");
@@ -57,16 +59,16 @@ function App() {
           <td>{data.data.moisture} %</td>
           <td>{data.data.vibration} %</td>
           <td>
-            {determineStatus({
-              distance: data.data.distance!,
-              moisture: data.data.moisture!,
-              vibration: data.data.vibration!,
-            })}
+            {determineSystemStatus(
+              dataState!.distance!,
+              dataState!.vibration!,
+              dataState!.moisture!
+            )}
           </td>
         </tr>
       );
     });
-  }, [dataArray]);
+  }, [dataArray, dataState]);
 
   useEffect(() => {
     if (!dataState) {
@@ -79,11 +81,11 @@ function App() {
       return [...prevState, { timeStamp: new Date(), data: dataState }];
     });
 
-    const status = determineStatus({
-      distance: dataState.distance!,
-      moisture: dataState.moisture!,
-      vibration: dataState.vibration!,
-    });
+    const status = determineSystemStatus(
+      dataState.distance!,
+      dataState.vibration!,
+      dataState.moisture!
+    );
 
     setStatus(status);
   }, [dataState]);
